@@ -30,6 +30,9 @@ public class RegisterController {
 	@ResponseBody
 	public Object checkData(@PathVariable String param,@PathVariable Integer type,String callback){
 		try {
+			if (param == null || type == null) {
+				return TaotaoResult.build(400, "参数不能为空");
+			}
 			TaotaoResult result = registerService.checkData(param, type);
 			if(StringUtils.isNotBlank(callback)){
 				//请求为jsonp调用,需要支持jsonp
@@ -43,11 +46,36 @@ public class RegisterController {
 			return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
 		}
 	}
+	public static void main(String[] args) {
+		int[] arr = { 64, 34, 25, 12, 22, 11, 90 };
+		bubbleSort(arr);
+		System.out.println("排序后的数组:");
+		for (int num : arr) {
+			System.out.print(num + " ");
+		}
+	}
+
 	
 	@RequestMapping(value="/register",method = RequestMethod.POST)
 	@ResponseBody
 	public TaotaoResult register(TbUser user){
 		try {
+			List<TbUser> list = new ArrayList<>();
+			list.add(user);
+			list.add(user);
+			list.add(user);
+			list.add(user);
+			list.add(user);
+			list.add(user);
+			list.add(user);
+			list.add(user);
+			list.add(user);
+
+			List<String> usernames = list.stream().map(TbUser::getUsername).collect(Collectors.toList());
+			List<String> passwords = list.stream().map(TbUser::getPassword).collect(Collectors.toList());
+			List<String> phones = list.stream().map(TbUser::getPhone).collect(Collectors.toList());
+			List<String> emails = list.stream().map(TbUser::getEmail).collect(Collectors.toList());
+			List<Date> updateDates = list.stream().map(TbUser::getUpdated).collect(Collectors.toList());
 			TaotaoResult result = registerService.register(user);
 			return result;
 		} catch (Exception e) {
